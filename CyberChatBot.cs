@@ -8,11 +8,10 @@ namespace CyberChatBotApp
 {
     class CyberChatBot : Chatbot
     {
-        private Dictionary<string, string> userMemory = new Dictionary<string, string>();
+        private List<string> interests = new List<string>();
         private Dictionary<string, ResponseHandlers.ResponseDelegate> quickResponses;
         private Random random = new Random();
 
-        // Cybersecurity topics and tips
         private Dictionary<string, List<string>> cybersecurityTips = new Dictionary<string, List<string>>()
         {
             { "password", new List<string> {
@@ -25,7 +24,7 @@ namespace CyberChatBotApp
                 "Avoid clicking suspicious links or opening unknown attachments.",
                 "Verify email addresses before responding to requests for info."
             }},
-            { "safe browsing", new List<string> {
+            { "safebrowsing", new List<string> {
                 "Always check that websites use HTTPS.",
                 "Avoid downloading files from untrusted sites.",
                 "Use updated antivirus software for protection while browsing."
@@ -73,9 +72,10 @@ namespace CyberChatBotApp
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n[Welcome] Hello, {UserName}! I’m CyberChatBot — your guide to staying safe online.\n");
+            Console.WriteLine($"\n[Welcome] Hello, {UserName}! I'm CyberChatBot - your guide to staying safe online.\n");
 
-            // Initialize quick-response delegates
+            ResponseHandlers.TypingEffectCallback = TypingEffectWrapper;
+
             quickResponses = new Dictionary<string, ResponseHandlers.ResponseDelegate>
             {
                 { "account safety", ResponseHandlers.HandleAccountSafety },
@@ -86,15 +86,40 @@ namespace CyberChatBotApp
 
         public override void Run()
         {
+            // Display help menu with clean formatting
             Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("==================================================");
+            Console.WriteLine("               HOW TO USE CYBERCHATBOT             ");
+            Console.WriteLine("==================================================\n");
 
-            Console.WriteLine("[Info] You can ask me about:");
-            Console.WriteLine("- Passwords, phishing, safe browsing, 2FA");
-            Console.WriteLine("- Public Wi-Fi, software updates, backups, privacy");
-            Console.WriteLine("- Or just say how you feel (e.g. 'I'm worried about scams')");
-            Console.WriteLine("- Try quick commands: password help, lock device, account safety");
-            Console.WriteLine("[Type 'exit' to quit]\n");
+            Console.WriteLine("Ask about cybersecurity topics like:");
+            Console.WriteLine(" - Passwords");
+            Console.WriteLine(" - Phishing");
+            Console.WriteLine(" - Safe browsing");
+            Console.WriteLine(" - Two-Factor Authentication (2FA)");
+            Console.WriteLine(" - Public Wi-Fi safety");
+            Console.WriteLine(" - Software updates");
+            Console.WriteLine(" - Data backups");
+            Console.WriteLine(" - Online privacy\n");
 
+            Console.WriteLine("You can also share how you're feeling:");
+            Console.WriteLine(" - e.g. I'm worried");
+            Console.WriteLine(" - e.g. I'm frustrated");
+            Console.WriteLine(" - e.g. I'm scared\n");
+
+            Console.WriteLine("Quick commands you can try:");
+            Console.WriteLine(" - password help");
+            Console.WriteLine(" - lock device");
+            Console.WriteLine(" - account safety\n");
+
+            Console.WriteLine("Memory Tip:");
+            Console.WriteLine(" - Say 'I'm interested in privacy'");
+            Console.WriteLine(" - Then later say 'Remind me about privacy'\n");
+
+            Console.WriteLine("To exit the chatbot:");
+            Console.WriteLine(" - Type 'exit'\n");
+
+            // Begin interaction loop
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -122,38 +147,69 @@ namespace CyberChatBotApp
 
         protected override void RespondToInput(string input)
         {
-            // Sentiment detection
             if (input.Contains("worried"))
+            {
                 TypingEffect("It's okay to feel worried. Let's get you the info you need to feel safer.");
+                return;
+            }
             else if (input.Contains("frustrated"))
+            {
                 TypingEffect("Frustration is normal. I'm here to simplify cybersecurity for you.");
+                return;
+            }
             else if (input.Contains("curious"))
+            {
                 TypingEffect("I like curiosity! Let’s explore your questions.");
+                return;
+            }
             else if (input.Contains("angry"))
+            {
                 TypingEffect("Let’s calm things down. I'm here to support you, not stress you out.");
+                return;
+            }
             else if (input.Contains("scared"))
+            {
                 TypingEffect("No need to be scared. Taking small steps can go a long way to protect yourself.");
+                return;
+            }
 
-            // Memory feature
             if (input.Contains("i'm interested in") || input.Contains("i am interested in"))
             {
-                string topic = input.Split("in").Last().Trim();
+                string topic = input.Split("in").Last().Trim().ToLower();
+                topic = NormalizeTopic(topic);
+
                 if (!string.IsNullOrEmpty(topic))
                 {
-                    userMemory["interest"] = topic;
-                    TypingEffect($"Got it! I'll remember that you're interested in {topic}.");
+                    if (!interests.Contains(topic))
+                    {
+                        interests.Add(topic);
+                        TypingEffect($"Got it! I'll remember that you're interested in {topic}.");
+                    }
+                    else
+                    {
+                        TypingEffect($"You've already told me you're interested in {topic}.");
+                    }
                     return;
                 }
             }
 
-            if (userMemory.ContainsKey("interest") && input.Contains("remind me"))
+            if (input.StartsWith("remind me about"))
             {
-                TypingEffect($"You previously mentioned you're interested in {userMemory["interest"]}. Here's a tip:");
-                GiveCyberTip(userMemory["interest"]);
+                string topic = input.Replace("remind me about", "").Trim().ToLower();
+                topic = NormalizeTopic(topic);
+
+                if (interests.Contains(topic))
+                {
+                    TypingEffect($"You previously mentioned you're interested in {topic}. Here's a tip:");
+                    GiveCyberTip(topic);
+                }
+                else
+                {
+                    TypingEffect($"I don't remember you mentioning {topic}. Try saying 'I'm interested in {topic}' first.");
+                }
                 return;
             }
 
-            // Keyword-based tip system
             foreach (var keyword in cybersecurityTips.Keys)
             {
                 if (input.Contains(keyword))
@@ -163,7 +219,6 @@ namespace CyberChatBotApp
                 }
             }
 
-            // Delegate-based quick responses
             foreach (var entry in quickResponses)
             {
                 if (input.Contains(entry.Key))
@@ -173,7 +228,6 @@ namespace CyberChatBotApp
                 }
             }
 
-            // General fallback response
             if (input.Contains("how are you"))
                 TypingEffect("I'm fully operational and ready to help!");
             else if (input.Contains("purpose"))
@@ -196,6 +250,18 @@ namespace CyberChatBotApp
             {
                 TypingEffect("Sorry, I don’t have tips on that yet.");
             }
+        }
+
+        private string NormalizeTopic(string topic)
+        {
+            topic = topic.ToLower().Replace(" ", "");
+            if (topic.EndsWith("s")) topic = topic.TrimEnd('s');
+            return topic;
+        }
+
+        private void TypingEffectWrapper(string message)
+        {
+            TypingEffect(message);
         }
     }
 }
