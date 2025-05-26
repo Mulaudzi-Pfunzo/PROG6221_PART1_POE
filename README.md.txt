@@ -68,9 +68,9 @@ A text-based console chatbot that promotes **cybersecurity awareness** using fun
 
 ---
 
-## Topics You Can Ask About
+## Topics You Can Ask About.
 
-- Passwords  
+- Passwords.
 - Phishing  
 - Safe browsing  
 - 2FA (Two-Factor Authentication)  
