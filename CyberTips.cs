@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CyberChatBotApp
+namespace CyberChatBotGUIFinal
 {
-    static class CyberTips
+    public static class CyberTips
     {
-        // Dictionary mapping keywords to multiple random tips (MINIMUM 5 each)
-        private static readonly Dictionary<string, List<string>> tipsByKeyword = new Dictionary<string, List<string>>()
+        private static readonly Dictionary<string, List<string>> tipsByKeyword = new()
         {
-            ["password"] = new List<string>
+            ["password"] = new()
             {
                 "Use complex passwords with numbers and symbols.",
                 "Never reuse passwords across different accounts.",
@@ -19,7 +15,7 @@ namespace CyberChatBotApp
                 "Avoid using common passwords like '123456' or 'password'.",
                 "Change your passwords regularly, especially after a breach."
             },
-            ["phishing"] = new List<string>
+            ["phishing"] = new()
             {
                 "Don’t click suspicious links in emails or messages.",
                 "Verify the sender before replying to unexpected emails.",
@@ -27,7 +23,7 @@ namespace CyberChatBotApp
                 "Hover over links to see where they really go before clicking.",
                 "Watch for urgent language asking you to 'act now'."
             },
-            ["safe browsing"] = new List<string>
+            ["safe browsing"] = new()
             {
                 "Use websites that begin with HTTPS for secure connections.",
                 "Keep your browser and antivirus software up to date.",
@@ -35,7 +31,7 @@ namespace CyberChatBotApp
                 "Never save passwords in a shared or public computer.",
                 "Install an ad blocker to prevent malicious pop-up ads."
             },
-            ["2fa"] = new List<string>
+            ["2fa"] = new()
             {
                 "Two-Factor Authentication adds a second layer of security.",
                 "Always enable 2FA on important accounts like email and banking.",
@@ -43,7 +39,7 @@ namespace CyberChatBotApp
                 "Even if someone gets your password, 2FA helps stop them.",
                 "Backup your 2FA codes in case you lose your device."
             },
-            ["public wifi"] = new List<string>
+            ["public wifi"] = new()
             {
                 "Avoid entering passwords or personal info on public Wi-Fi.",
                 "Use a VPN when browsing or accessing sensitive data.",
@@ -51,7 +47,7 @@ namespace CyberChatBotApp
                 "Always log out of accounts when done on public Wi-Fi.",
                 "Public networks are not encrypted — treat them as unsafe."
             },
-            ["updates"] = new List<string>
+            ["updates"] = new()
             {
                 "Software updates fix security vulnerabilities hackers exploit.",
                 "Enable automatic updates for your OS, browser, and apps.",
@@ -59,7 +55,7 @@ namespace CyberChatBotApp
                 "Outdated software is a major target for cyberattacks.",
                 "Install patches even if they seem minor — they protect you."
             },
-            ["backup"] = new List<string>
+            ["backup"] = new()
             {
                 "Back up important data weekly to avoid loss.",
                 "Use cloud storage or external drives for backups.",
@@ -69,7 +65,6 @@ namespace CyberChatBotApp
             }
         };
 
-        // Returns a random tip for a given keyword
         public static string GetTip(string keyword)
         {
             if (tipsByKeyword.ContainsKey(keyword))
@@ -78,10 +73,9 @@ namespace CyberChatBotApp
                 var random = new Random();
                 return responses[random.Next(responses.Count)];
             }
-            return null;
+            return null!;
         }
 
-        // Scans input for a known keyword and returns it
         public static string FindKeyword(string userInput)
         {
             string lowerInput = userInput.ToLower();
@@ -90,7 +84,11 @@ namespace CyberChatBotApp
                 if (lowerInput.Contains(keyword))
                     return keyword;
             }
-            return null;
+            return null!;
+        }
+        public static List<string> GetAvailableTipTopics()
+        {
+            return new List<string>(tipsByKeyword.Keys);
         }
     }
 }

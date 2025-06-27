@@ -1,0 +1,40 @@
+﻿<Application x:Class="CyberChatBotGUIFinal.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <!-- 🌈 Global Styles -->
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#2563eb"/>
+        <SolidColorBrush x:Key="AccentGreen" Color="#22c55e"/>
+        <SolidColorBrush x:Key="SoftBackground" Color="#f1f5f9"/>
+
+        <!-- 🌐 Global TextBlock Styling -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#1f2937"/>
+        </Style>
+
+        <!-- 🌐 Global TextBox Styling -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- 🌐 Global Button Styling -->
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+
+        <!-- 💫 Optional Drop Shadow for Popups and Cards -->
+        <DropShadowEffect x:Key="DropShadow"
+                          BlurRadius="15"
+                          ShadowDepth="5"
+                          Direction="270"
+                          Color="#333"
+                          Opacity="0.3"/>
+    </Application.Resources>
+</Application>
