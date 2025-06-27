@@ -1,4 +1,4 @@
-﻿name: .NET Build and Test
+name: .NET Build and Test
 
 on:
   push:
@@ -17,13 +17,14 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '9.0.x'
+        dotnet-version: '9.0.x'  # Make sure you're really using .NET 9, or change to 8.0.x or 7.0.x if needed
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./CyberChatBotGUIFinal/CyberChatBotGUIFinal.csproj
 
     - name: Build
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build ./CyberChatBotGUIFinal/CyberChatBotGUIFinal.csproj --no-restore --configuration Release
 
     - name: Run Tests
       run: echo "No tests implemented"
+
