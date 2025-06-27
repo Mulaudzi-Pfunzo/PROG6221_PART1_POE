@@ -86,9 +86,58 @@ A text-based console chatbot that promotes **cybersecurity awareness** using fun
 GitHub Actions workflow automatically runs build checks after each commit to ensure continuous integration and working code.
 
 
+Part 3 – GUI Chatbot App (WPF)
+In Part 3, the console-based chatbot was transformed into a modern WPF GUI application using C# and XAML.
+
+Features Added:
+
+Task Assistant: Add, delete, complete tasks and set reminders
+
+Cybersecurity Quiz Game: Answer random cybersecurity questions
+
+Chatbot: Flexible "natural language" prompts to:
+
+Add tasks: Add task Study for finals
+
+Set reminders: Remind me to submit POE
+
+Get tips: Tell me about phishing
+
+Log viewer: Show activity log
+
+Activity Log: View 10 recent actions
+
+Modern UI:
+
+Color-coded sections
+
+Gradient startup screen
+
+Tooltips and icons
+
+Dark mode–friendly design
+
+Integration:
+
+All Part 1 & 2 classes like TaskManager, ActivityLog, and CyberTips were reused and enhanced in the GUI app.
+
+Console functionality was preserved but upgraded visually.
+
+▶️ How to Run the App
+Open the solution in Visual Studio
+
+Set CyberChatBotGUIFinal as the Startup Project
+
+Press F5 to run
+
+
+Youtube video link
+https://youtu.be/swDnRsvElfk?si=tmrXgeIDvm8aZyXw
 
 GitHub Repository Link
 https://github.com/Mulaudzi-Pfunzo/PROG6221_PART1_POE.git
+
+
 
 
 
