@@ -17,14 +17,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '9.0.x'  # Make sure you're really using .NET 9, or change to 8.0.x or 7.0.x if needed
+        dotnet-version: '7.0.x'  # Update if you used a different version
 
     - name: Restore dependencies
-      run: dotnet restore ./CyberChatBotGUIFinal/CyberChatBotGUIFinal.csproj
+      run: dotnet restore ./CyberChatBotFinalGUI/CyberChatBotFinalGUI.csproj
 
     - name: Build
-      run: dotnet build ./CyberChatBotGUIFinal/CyberChatBotGUIFinal.csproj --no-restore --configuration Release
+      run: dotnet build ./CyberChatBotFinalGUI/CyberChatBotFinalGUI.csproj --no-restore --configuration Release
 
     - name: Run Tests
       run: echo "No tests implemented"
-
